@@ -22,7 +22,6 @@ try:
 except tweepy.TweepError:
     print 'Error! Failed to get request token.'
 
-
 try:
     auth.get_access_token(verifier)
     print 'success'
