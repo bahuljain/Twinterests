@@ -46,6 +46,8 @@ Connecting people on twitter with similar interests
 - Siddhesh Mhatre – sm4083
 
 ###Screenshots
+![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/web-app.jpg)
+
 ![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/home-page-web-app.jpg)
 
 ![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/server-side-working.jpg)
