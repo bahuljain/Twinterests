@@ -74,6 +74,7 @@ class UserInterests:
         
         n = 1
         for page in tweepy.Cursor(self.api.user_timeline, count=50).pages(5):
+            print success
             tweets = ''
             print 'Page: ' + `n`
             offset = 1
@@ -89,11 +90,12 @@ class UserInterests:
                 offset += 1
             n += 1
             
-            success = True
-            topics = self.prism.getTextTopic(tweets)
-            
-            if topics:
-                self.addTopics(topics)
+            if count > 50:
+                success = True
+                topics = self.prism.getTextTopic(tweets)
+                
+                if topics:
+                    self.addTopics(topics)
 
         print "Tweets Extracted and Analyzed: " + `count`
         return success

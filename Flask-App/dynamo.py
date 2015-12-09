@@ -28,6 +28,21 @@ class DynamoTable:
 		)
 		return result['Items'][0] if result['Count'] > 0 else None
 
+	def updateInterests(self, rowUserId, last_tweet_id, interests):
+		response = self.table.update_item(
+			Key = {
+				'user_id':rowUserId
+			}, 
+			UpdateExpression="set interests = :r, last_tweet_id=:p, interests_count=:a",
+		    ExpressionAttributeValues={
+		        ':r': interests,
+		        ':p': last_tweet_id,
+		        ':a': len(interests)
+		    },
+		    ReturnValues="UPDATED_NEW"
+		)
+		print response
+
 # Format for User :)
 # 
 # User = {
