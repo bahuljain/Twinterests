@@ -61,7 +61,7 @@ class UserInterests:
             self.topicsDict = dict()
         else: 
             self.topicsDict = topics
-        self.API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
+        self.API_TOKEN = 'xxx'
         self.prism = Prismatic(self.API_TOKEN)
         self.api = api
         
