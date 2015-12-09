@@ -35,8 +35,9 @@ Connecting people on twitter with similar interests
 - [x] Build home page 
     - [x] Web Application
     - [ ] Android
-- [x] Set up communication with server
-- [x] Build dynamic UI of home page (android)
+- https://github.com/parthrparekh93/Cloud
+    - [x] Set up communication with server
+    - [x] Build dynamic UI of home page (android)
 
 ###Team N
 - Bahul Jain - bkj2111
