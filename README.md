@@ -1,0 +1,45 @@
+# Twitty
+Connecting people on twitter with similar interests
+
+###Technology Used
+- Python 
+- Android App (java)
+- Web App (html, css, javscript)
+- Database (dynamo)
+
+###Apis
+- Prismatic
+- Twitter
+- Boto3
+
+###Team N
+- Bahul Jain - bkj2111
+- Parth Parekh - prp2121
+- Jonathan Chang - jc4267
+- Siddhesh Mhatre – sm4083
+
+###Objective for Hackathon:
+#####Backend
+- [x] User Login to Twitter
+  - [x] Login via twitter
+- [x] Get access credentials
+- [x] Get Tweets in Back-End
+- [x] Get User Interests
+  - [x] Set up Interface with Prismatic for topic modelling tweets
+- [x] Enrich Interests
+  - [x] Set up Interface with Prismatic for topic relation
+- [x] Insert, scan, query from DynamoDB
+- [x] Update user interests on every login
+- [x] Get latest tweets
+- [x] Get interests from them
+- [ ] Update user information on every login
+- [x] Build recommendation system
+- [x] Filter based on interests
+- [ ] Follow User of choice
+
+#####Frontend
+- [x] Build home page 
+  - [x] web application
+  - [ ] android
+- [x] Set up communication with server
+- [x] Build dynamic UI of home page (android)
