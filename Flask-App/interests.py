@@ -104,7 +104,7 @@ class UserInterests:
         user = self.api.me()
         total_tweets = user.statuses_count
         page_size = 50 #if total_tweets < 1000 else 100
-        page_count = 10 #if page_size is 50 else 10
+        page_count = 20 #if page_size is 50 else 10
         
         page_list = []
         n = 1
@@ -125,6 +125,30 @@ class UserInterests:
             if topics:
                 self.addTopics(topics)
 
+        print "Tweets Extracted and Analyzed: " + `count`
+
+    def generateInterests(self, handle):    
+        page_size = 50 #if total_tweets < 1000 else 100
+        page_count = 20 #if page_size is 50 else 10
+        
+        n = 1
+        count = 1
+        for page in tweepy.Cursor(self.api.user_timeline, handle, count=page_size).pages(page_count):
+            print 'Page: ' + `n`
+            
+            tweets = ''
+            for status in page:
+                count += 1
+                tweets += `status.text.lower().encode('ascii','ignore').decode('ascii')` + "\n"
+
+            topics = self.prism.getTextTopic(tweets)
+            
+            if topics:
+                self.addTopics(topics)
+            
+            n = n+1
+
+        
         print "Tweets Extracted and Analyzed: " + `count`
 
     # prism_result - the result from prismatic as it is

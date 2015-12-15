@@ -91,7 +91,7 @@ class User:
         # pages_count = total_tweets / 10 if total_tweets % 10 is 0 else total_tweets / 10 + 1
         
         n = 1
-        for page in tweepy.Cursor(api.user_timeline, self.handle, count=50).pages(5):
+        for page in tweepy.Cursor(api.user_timeline, self.handle, count=50).pages(10):
             tweets = ''
             print 'Page: ' + `n`
             offset = 1
