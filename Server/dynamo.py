@@ -1,5 +1,6 @@
 import boto3.session
 from boto3.dynamodb.conditions import Key, Attr
+import tweepy
 
 class DynamoTable:
 
@@ -13,8 +14,26 @@ class DynamoTable:
 		print "Fetched: " + `result['Count']` + " Users" 
 		return result["Items"]
 
-	def addUserToDB(self, User):
+	def addUserToDB(self, user, interests_dict, last_tweet_id):
+		User = {
+			'user_id': user.id,
+			'name': user.name,
+			'screen_name': user.screen_name,
+			'profile_image_url': user.profile_image_url,
+			'location': user.location if len(user.location) > 0 else 'Earth, Milky Way',
+			'follower_count': user.followers_count,
+			'friends_count': user.friends_count,
+			'profile_url': "http:/twitter.com/" + user.screen_name,
+			'description': user.description if len(user.description) > 0 else 'Sorry I have no description',
+			'statuses_count': user.statuses_count,
+			'interests': interests_dict,
+			'interests_count': len(interests_dict),
+			'last_tweet_id': last_tweet_id
+		}
+		print "User Item created"
+
 		response = self.table.put_item(Item=User)
+		print response
 
 	def checkUserExists(self, id):
 		response = self.table.query(
@@ -43,6 +62,25 @@ class DynamoTable:
 		)
 		print response
 
+	def formatContent(self, result):
+		User = {
+	        'user_id': int(result['user_id']),
+	        'name': result['name'],
+	        'screen_name': result['screen_name'],
+	        'profile_image_url': result['profile_image_url'],
+	        'location': result['location'],
+	        'follower_count': int(result['follower_count']),
+	        'friends_count': int(result['friends_count']),
+	        'profile_url': result['profile_url'],
+	        'description': result['description'],
+	        'statuses_count': int(result['statuses_count']),
+	        'interests': result['interests'],
+	        'interests_count': int(result['interests_count']),
+	        'last_tweet_id': int(result['last_tweet_id']),
+		}
+		return User
+
+
 # Format for User :)
 # 
 # User = {
@@ -60,3 +98,16 @@ class DynamoTable:
 #         'interests_count': len(interests_list),
 #         'last_tweet_id': last_tweet_id
 # }
+
+# dynamo = DynamoTable('default', 'twitty-users')
+# result = dynamo.getUser(1412174058)
+# mod = dynamo.formatContent(result)
+# print mod 
+
+# users = dict()
+
+
+
+# for key in results:
+# 	users[row['user_id']] = row
+

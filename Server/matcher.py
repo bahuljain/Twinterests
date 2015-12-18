@@ -4,12 +4,15 @@ import collections
 
 class Matcher:
 
-    def __init__(self, user_id):
-        self.usersInfo = list()
+    def __init__(self, items):
+        self.usersInfo = items
         self.usersInfoDict = dict()
-        self.id = str(user_id)
-        self.user = None
+        self.getUsersInfoDynamo(items)
         self.commonInterests = collections.defaultdict(list)
+
+    def getUsersInfoDynamo(self, items):
+        for item in items:
+            self.usersInfoDict[item['user_id']] = item
 
     def getUsersInfo(self):
         with open('db/twitty-users.csv','rb') as fin:
@@ -18,15 +21,11 @@ class Matcher:
             	self.usersInfo.append(row)
                 self.usersInfoDict[str(row['user_id (N)'])] = row
 
-        self.user = self.usersInfoDict[self.id]
-    # def getUserInfoDict(self):
-    #     print len(self.usersInfoDict)
-
     def getUsersCount(self):
         return len(self.usersInfo)
 
-    def getUserMatches(self):
-        return self.commonInterests[self.id]
+    def getUserMatches(self, user_id):
+        return self.commonInterests[user_id]
 
     # finds matches for all users in db with all other users in the database 
     def doMatching(self):
@@ -37,23 +36,23 @@ class Matcher:
     # shares with the given user
     def match(self, cur_user, all_users):
         for user in all_users:
-            commonInterests = self.findCommonInterests(cur_user['interests (M)'], user['interests (M)'])
+            commonInterests = self.findCommonInterests(cur_user['interests'], user['interests'])
             
             if len(commonInterests) > 0:
                 
-                self.commonInterests[user['user_id (N)']].append({
-                    'with': cur_user['user_id (N)'],
+                self.commonInterests[user['user_id']].append({
+                    'with': cur_user['user_id'],
                     'interests': commonInterests,
                 })
 
-                self.commonInterests[cur_user['user_id (N)']].append({
-                    'with': user['user_id (N)'],
+                self.commonInterests[cur_user['user_id']].append({
+                    'with': user['user_id'],
                     'interests': commonInterests,
                 })
 
     def findCommonInterests(self, dict1, dict2):
-        dict1 = json.loads(dict1)
-        dict2 = json.loads(dict2)
+        # dict1 = json.loads(dict1)
+        # dict2 = json.loads(dict2)
      
         commonInterests = dict()
         for id in dict1:
@@ -65,55 +64,58 @@ class Matcher:
     def getCommonInterests(self):
         return self.commonInterests
         
-    def getAllGraph(self):
+    def getTwitterGraph(self):
         nodes = list()
         edges = list()
         visited = collections.defaultdict(bool)
 
         for user in self.usersInfo:
-            visited[user['user_id (N)']] = True
+            visited[user['user_id']] = True
 
             nodes.append({
-                'id': int(user['user_id (N)']), 
-                'title': user['name (S)'], 
-                'image': user['profile_image_url (S)'],
+                'id': int(user['user_id']), 
+                'title': user['name'], 
+                'image': user['profile_image_url'],
             });
 
-            if self.commonInterests[user['user_id (N)']]:
-                for match in self.commonInterests[user['user_id (N)']]:
+            if self.commonInterests[user['user_id']]:
+                for match in self.commonInterests[user['user_id']]:
                     if not visited[match['with']]:
-                        title = ', '.join(match['interests'][id]['S'] for id in match['interests'])
+                        if len(match['interests']) > 1:
+                            title = ', '.join(match['interests'][id] for id in match['interests'])
 
-                        edges.append({
-                            'from': int(user['user_id (N)']),
-                            'to': int(match['with']), 
-                            'title': title,
-                        });
+                            edges.append({
+                                'from': int(user['user_id']),
+                                'to': int(match['with']), 
+                                'title': title,
+                            });
 
         return (nodes, edges)
 
-    def getUserMatchesGraph(self):
+    def getUserSocialGraph(self, user_id):
         nodes = list()
         edges = list()
+        user = self.usersInfoDict[user_id]
 
         nodes.append({
-            'id': int(self.user['user_id (N)']), 
-            'title': self.user['name (S)'], 
-            'image': self.user['profile_image_url (S)'],
+            'id': int(user['user_id']), 
+            'title': user['name'], 
+            'image': user['profile_image_url'],
         });
 
-        for match in self.getUserMatches():
+        for match in self.getUserMatches(user_id):
             to_id = match['with']
+            
             nodes.append({
                 'id': int(to_id),
-                'title': self.usersInfoDict[to_id]['name (S)'],
-                'image': self.usersInfoDict[to_id]['profile_image_url (S)'],    
+                'title': self.usersInfoDict[to_id]['name'],
+                'image': self.usersInfoDict[to_id]['profile_image_url'],    
             })
 
-            title = ', '.join(match['interests'][id]['S'] for id in match['interests'])
+            title = ', '.join(match['interests'][id] for id in match['interests'])
 
             edges.append({
-                'from': int(self.user['user_id (N)']),
+                'from': int(user['user_id']),
                 'to': int(to_id),
                 'title': title,    
             })

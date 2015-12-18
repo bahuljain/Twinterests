@@ -65,91 +65,95 @@ class UserInterests:
         self.prism = Prismatic(self.API_TOKEN)
         self.api = api
         
-    # def getNewTweetsCount():
     def generateNewInterests(self, last_tweet_id):
         success = False
         
-        user = self.api.me()
-        total_tweets = user.statuses_count
-        
+        lti = last_tweet_id
         n = 1
+        count = 0
+        offset = 0
         for page in tweepy.Cursor(self.api.user_timeline, count=50).pages(5):
-            print success
             tweets = ''
             print 'Page: ' + `n`
-            offset = 1
-            for status in page:
-                count = (n-1)*10 + offset
-                
+            offset = 0
+            for status in page:                
                 if status.id == last_tweet_id:
-                    print "Tweets Extracted and Analyzed: " + `count`
-                    return success
+                    print "break: Tweets Extracted and Analyzed: " + `count-offset`
+                    return (success, lti)
                 else:
                     tweets += `status.text.lower().encode('ascii','ignore').decode('ascii')` + "\n"
                 
                 offset += 1
+                count += 1
             n += 1
-            
-            if count > 50:
+            # print count, offset
+            if count >= 50 and offset == 50:
                 success = True
                 topics = self.prism.getTextTopic(tweets)
                 
-                if topics:
+                if topics['topics']:
                     self.addTopics(topics)
 
-        print "Tweets Extracted and Analyzed: " + `count`
-        return success
+                lti = page[49].id
+        
+        print "Tweets Extracted and Analyzed: " + `count-offset`
+        return (success, lti)
 
     def generateInterests(self):
-        user = self.api.me()
-        total_tweets = user.statuses_count
         page_size = 50 #if total_tweets < 1000 else 100
         page_count = 20 #if page_size is 50 else 10
-        
-        page_list = []
+        lti = -1
+
         n = 1
+        count = 0
+        offset = 0
         for page in tweepy.Cursor(self.api.user_timeline, count=page_size).pages(page_count):
             print 'Page: ' + `n`
-            page_list.append(page)
-            n = n+1
-
-        count = 1
-
-        for page in page_list:
+            offset = 0
             tweets = ''
             for status in page:
-                count += 1
                 tweets += `status.text.lower().encode('ascii','ignore').decode('ascii')` + "\n"
+                count += 1
+                offset += 1
 
-            topics = self.prism.getTextTopic(tweets)
-            if topics:
-                self.addTopics(topics)
+            if offset == 50:
+                lti = page[49].id
+                topics = self.prism.getTextTopic(tweets)
+                if topics['topics']:
+                    self.addTopics(topics)
+            
+            n = n+1
 
-        print "Tweets Extracted and Analyzed: " + `count`
+        print "Tweets Extracted and Analyzed: " + `count-offset`
+        return lti
 
     def generateInterests(self, handle):    
         page_size = 50 #if total_tweets < 1000 else 100
         page_count = 20 #if page_size is 50 else 10
-        
+        lti = -1
+
         n = 1
-        count = 1
+        count = 0
+        offset = 0
         for page in tweepy.Cursor(self.api.user_timeline, handle, count=page_size).pages(page_count):
             print 'Page: ' + `n`
-            
+            offset = 0
             tweets = ''
             for status in page:
-                count += 1
                 tweets += `status.text.lower().encode('ascii','ignore').decode('ascii')` + "\n"
+                count += 1
+                offset += 1
 
-            topics = self.prism.getTextTopic(tweets)
-            
-            if topics:
-                self.addTopics(topics)
+            if offset == 50:
+                lti = page[49].id
+                topics = self.prism.getTextTopic(tweets)
+                if topics['topics']:
+                    self.addTopics(topics)
             
             n = n+1
 
-        
-        print "Tweets Extracted and Analyzed: " + `count`
+        print "Tweets Extracted and Analyzed: " + `count-offset`
+        return lti
 
     # prism_result - the result from prismatic as it is
     def addTopics(self, prism_result):
@@ -181,3 +185,16 @@ class UserInterests:
 # API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
 # prism = Prismatic(API_TOKEN)
 # print prism.getRelatedTopics(2607)
+
+# access_token = "563806852-9m6OTWv0bnpDfbEVYZXke1MoWwiB77IGRSpqwlaq"
+# access_token_secret = "BsKrwRvSutkADZX73J53i2dTz3WgCPzSYj1KQ5NI5GQW5"
+# consumer_key = "VlFNycQDt1xgm1w7ggatd748Q"
+# consumer_secret = "NKfuFXkIcIQNdMtOpim2TJ1avcwXuOCsAOVcR7gl9AQa5dQ1JS"
+# auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+# auth.set_access_token(access_token, access_token_secret)
+
+# api = tweepy.API(auth)
+
+
+# ui = UserInterests(api, None)
+# ui.generateNewInterests(-1)

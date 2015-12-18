@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="bahul" content="">
+
+    <title>Twitty</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="static/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <!-- <link href="static/css/home-page.css" rel="stylesheet"> -->
+
+    <!-- Custom Fonts -->
+    <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+</head>
+
+<body>
+    <h1> Hello {{ name }} </h1>
+
+    <form id="twitterGraph" action="twitterGraph" method="get">
+        <input class="user_id" type="hidden" name="user_id" value=""/>
+        Show Entire Twitter Graph: <button onclick="getTwitterGraph()">Twitter Graph</button> <br/><br/>
+    </form>
+
+    <form id="socialGraph" action="socialGraph" method="get">
+        <input class="user_id" type="hidden" name="user_id" value=""/>
+        See your Social Graph: <button onclick="getSocialGraph()">Social Graph</button>
+    </form>
+
+    <div>
+        {{ user | safe }}
+    </div>
+
+    <br/><br/>
+
+    <div>
+        {{ matchingUsers | safe }}
+    </div>
+
+    <script type="text/javascript">
+        var user_id = {{ user_id | safe }};
+        var user = {{ user | safe }};
+        var matchingUsers = {{ matchingUsers | safe }};
+
+        console.log(user);
+        console.log(matchingUsers);
+
+        x = document.getElementsByClassName('user_id');
+        for (var i = 0; i < x.length; i++) {
+            x[i].value = user_id;
+        }
+
+        function getTwitterGraph() {
+            document.getElementById('twitterGraph').submit();
+        }
+
+        function getSocialGraph() {
+            document.getElementById('socialGraph').submit();
+        }
+    </script>
+</body>
+
+</html>
