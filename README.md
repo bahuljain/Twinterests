@@ -48,6 +48,6 @@ Connecting people on twitter with similar interests
 ###Screenshots
 ![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/web-app.jpg)
 
-![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/home-page-web-app.jpg)
+<!--![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/home-page-web-app.jpg)-->
 
-![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/server-side-working.jpg)
+<!--![alt tag](https://raw.github.com/bahuljain/Twitty/master/Screenshots/server-side-working.jpg)-->
