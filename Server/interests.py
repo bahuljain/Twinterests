@@ -61,7 +61,7 @@ class UserInterests:
             self.topicsDict = dict()
         else: 
             self.topicsDict = topics
-        self.API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
+        self.API_TOKEN = 'xxx'
         self.prism = Prismatic(self.API_TOKEN)
         self.api = api
         
@@ -185,6 +185,7 @@ class UserInterests:
 # API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
 # prism = Prismatic(API_TOKEN)
 # print prism.getRelatedTopics(2607)
+<<<<<<< HEAD:Server/interests.py
 
 # access_token = "563806852-9m6OTWv0bnpDfbEVYZXke1MoWwiB77IGRSpqwlaq"
 # access_token_secret = "BsKrwRvSutkADZX73J53i2dTz3WgCPzSYj1KQ5NI5GQW5"
@@ -198,3 +199,5 @@ class UserInterests:
 
 # ui = UserInterests(api, None)
 # ui.generateNewInterests(-1)
+=======
+>>>>>>> origin/master:Flask-App/interests.py
