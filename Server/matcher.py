@@ -4,26 +4,16 @@ import collections
 
 class Matcher:
 
-    def __init__(self, items):
+    def __init__(self, items, usersDict):
         self.usersInfo = items
-        self.usersInfoDict = dict()
-        self.getUsersInfoDynamo(items)
+        self.usersInfoDict = usersDict
         self.commonInterests = collections.defaultdict(list)
-
-    def getUsersInfoDynamo(self, items):
-        for item in items:
-            self.usersInfoDict[item['user_id']] = item
-
-    def getUsersInfo(self):
-        with open('db/twitty-users.csv','rb') as fin:
-            dr = csv.DictReader(fin)
-            for row in dr:
-            	self.usersInfo.append(row)
-                self.usersInfoDict[str(row['user_id (N)'])] = row
 
     def getUsersCount(self):
         return len(self.usersInfo)
 
+    # return the common interests shared by the given user with all the other users if there are
+    # any common interests
     def getUserMatches(self, user_id):
         return self.commonInterests[user_id]
 
@@ -50,20 +40,22 @@ class Matcher:
                     'interests': commonInterests,
                 })
 
+    # Returns entries having same ids in two dictionaries
     def findCommonInterests(self, dict1, dict2):
-        # dict1 = json.loads(dict1)
-        # dict2 = json.loads(dict2)
-     
         commonInterests = dict()
+
         for id in dict1:
             if id in dict2:
                 commonInterests[id] = dict1[id]
                 
         return commonInterests    
 
+    # Returns the entire result of matching performed across the entire table
     def getCommonInterests(self):
         return self.commonInterests
         
+    # Returns the nodes and edges for a graph that contains all users in our database as nodes and adds edges
+    # between any two users if they share atleast 2 common interests
     def getTwitterGraph(self):
         nodes = list()
         edges = list()
@@ -80,18 +72,19 @@ class Matcher:
 
             if self.commonInterests[user['user_id']]:
                 for match in self.commonInterests[user['user_id']]:
-                    if not visited[match['with']]:
-                        if len(match['interests']) > 1:
-                            title = ', '.join(match['interests'][id] for id in match['interests'])
+                    if not visited[match['with']] and len(match['interests']) > 1:
+                        title = ', '.join(match['interests'][id] for id in match['interests'])
 
-                            edges.append({
-                                'from': int(user['user_id']),
-                                'to': int(match['with']), 
-                                'title': title,
-                            });
+                        edges.append({
+                            'from': int(user['user_id']),
+                            'to': int(match['with']), 
+                            'title': title,
+                        });
 
         return (nodes, edges)
 
+    # Returns the nodes and edges for a graph that showing a single users connections with other users in the database
+    # it shares common interests with
     def getUserSocialGraph(self, user_id):
         nodes = list()
         edges = list()

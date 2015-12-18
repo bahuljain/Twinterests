@@ -76,21 +76,22 @@ def home():
     if 'matcher' not in db.keys():
         print "Begin Matching"
         items = dynamo.scanTable()
-        matcher = Matcher(items)
-        matcher.doMatching()
-        db['matcher'] = matcher
 
         users = dict()
         for item in items:
             users[item['user_id']] = dynamo.formatContent(item)
 
+        matcher = Matcher(items, users)
+        matcher.doMatching()
+
+        db['matcher'] = matcher
         db['users'] = users
         print "Matching Done"
 
-    # print db
-
     return render_template('home.html', name=user.name, user_id=id)
 
+# Return current user information, list of users sharing interests with the current user, including
+# their individual information and common interests
 @app.route('/dashboard', methods=['POST'])
 def dashboard():
     # print "Received Request"
@@ -117,6 +118,7 @@ def dashboard():
         matchingUsers=cleanDict(matchingUsers)
     )
 
+# Return nodes and edges for the entire twitter graph!! :)
 @app.route('/twitterGraph', methods=['GET'])
 def twitterGraph():
     id = request.args.get('user_id')
@@ -134,7 +136,8 @@ def twitterGraph():
         graph=1
     )
 
-
+# Return the nodes and edges for the user's social graph, depicting all the users he/she shares 
+# common interest with.
 @app.route('/socialGraph', methods=['GET'])
 def socialGraph():
     id = request.args.get('user_id')
@@ -154,6 +157,9 @@ def socialGraph():
         graph=2
     )
 
+# 1. First of all generate the interests of the user.
+# 2. Enrich the interests list of the user in case there arent many interests of the user.
+# 3. Add the user to the database.
 def processFirstTimeUser(api, dynamo):
     user = api.me()
 
@@ -176,6 +182,9 @@ def processFirstTimeUser(api, dynamo):
 
     return interests_dict
 
+# 1. Fetch user from database.
+# 2. Generate new interests of user from his/her new and recent tweets.
+# 3. Update new interests in the database.
 def processExistingUser(api, dynamo):
     user = api.me()
     
@@ -199,6 +208,7 @@ def processExistingUser(api, dynamo):
 
     return userInterests.getInterests()
 
+# Some keys were not string which was hindering the dumps function from serializing the data, hence the cleaning required.
 def cleanDict(dictionary):
     for key in dictionary.keys():
         if type(key) is not str:

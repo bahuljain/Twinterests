@@ -9,11 +9,13 @@ class DynamoTable:
 		self.dynamo = self.boto3.resource('dynamodb', 'us-east-1')
 		self.table = self.dynamo.Table(tableName)
 
+	# returns the entire table
 	def scanTable(self):
 		result = self.table.scan()
 		print "Fetched: " + `result['Count']` + " Users" 
 		return result["Items"]
 
+	# adding a new entry in the database
 	def addUserToDB(self, user, interests_dict, last_tweet_id):
 		User = {
 			'user_id': user.id,
@@ -35,18 +37,21 @@ class DynamoTable:
 		response = self.table.put_item(Item=User)
 		print response
 
+	# Self-Explanatory
 	def checkUserExists(self, id):
 		response = self.table.query(
 	    	KeyConditionExpression=Key('user_id').eq(id)
 		)
 		return True if response['Count'] > 0 else False
 
-	def getUser(self, id):
+	# Returns the user entry in the database given the user_id
+	def getUser(self, user_id):
 		result = self.table.query(
-			KeyConditionExpression=Key('user_id').eq(id)
+			KeyConditionExpression=Key('user_id').eq(user_id)
 		)
 		return result['Items'][0] if result['Count'] > 0 else None
 
+	# updating the interests of user in the database
 	def updateInterests(self, rowUserId, last_tweet_id, interests):
 		response = self.table.update_item(
 			Key = {
@@ -62,6 +67,8 @@ class DynamoTable:
 		)
 		print response
 
+	# Apparently dynamo stores numerical data as Decimal(1231423134), which was raising exceptions while serializing
+	# the data in json format.
 	def formatContent(self, result):
 		User = {
 	        'user_id': int(result['user_id']),
