@@ -11,7 +11,7 @@ app = Flask(__name__, static_url_path='/static')
 app.debug = True
 consumer_key = "VlFNycQDt1xgm1w7ggatd748Q"
 consumer_secret = "NKfuFXkIcIQNdMtOpim2TJ1avcwXuOCsAOVcR7gl9AQa5dQ1JS"
-callback_url = 'http://ebdb7e2e.ngrok.io/auth'
+callback_url = 'http://3ac49772.ngrok.io/auth'
 session = dict()
 db = dict()
 
@@ -92,10 +92,11 @@ def home():
 
 # Return current user information, list of users sharing interests with the current user, including
 # their individual information and common interests
-@app.route('/dashboard', methods=['POST'])
+@app.route('/dashboard', methods=['GET','POST'])
 def dashboard():
     # print "Received Request"
-    id = request.form.get('user_id', type=int)
+    id = int(request.args.get('user_id'))
+    # id = request.form.get('user_id', type=int)
     api = db[id]['api']
     user = api.get_user('prakharsriv9')
 

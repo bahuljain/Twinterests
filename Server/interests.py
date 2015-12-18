@@ -61,8 +61,8 @@ class UserInterests:
             self.topicsDict = dict()
         else: 
             self.topicsDict = topics
-        self.API_TOKEN = 'xxx'
-        self.prism = Prismatic(self.API_TOKEN)
+        API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
+        self.prism = Prismatic(API_TOKEN)
         self.api = api
         
     def generateNewInterests(self, last_tweet_id):
@@ -185,19 +185,3 @@ class UserInterests:
 # API_TOKEN = 'xxx'
 # prism = Prismatic(API_TOKEN)
 # print prism.getRelatedTopics(2607)
-<<<<<<< HEAD:Server/interests.py
-
-# access_token = "xx"
-# access_token_secret = "xxx"
-# consumer_key = "xxx"
-# consumer_secret = "xx"
-# auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
-# auth.set_access_token(access_token, access_token_secret)
-
-# api = tweepy.API(auth)
-
-
-# ui = UserInterests(api, None)
-# ui.generateNewInterests(-1)
-=======
->>>>>>> origin/master:Flask-App/interests.py

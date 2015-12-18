@@ -47,8 +47,8 @@ function loadGraph(N,E, fixed, nodeShape, nodeSize, improvedLayout) {
       shadow: true
     },
     physics: {
-      enabled: false,
-      stabilization: false,
+      enabled: true,
+      stabilization: true,
     },
     manipulation: {
       enabled: false,
@@ -95,19 +95,3 @@ function addPositions(N) {
 
   return N
 }
-
-// function modifyGraph(){
-//   selectedEdges = network.getSelectedEdges();
-
-//   for (id in edges._data) {
-//     console.log(typeof(id))
-//     if (selectedEdges.indexOf(id) > -1) {
-//       // console.log('true');
-//       edges.update({id:id, hidden:true});
-//     } else {
-//       // console.log('false');
-//       edges.update({id:id, hidden:false});
-//     }
-    
-//   }
-// }
