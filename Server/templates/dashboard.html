@@ -27,13 +27,21 @@
     <h1> Hello {{ name }} </h1>
 
     <form id="twitterGraph" action="twitterGraph" method="get">
+        <input type="hidden" name="device" value="web"/>
         <input class="user_id" type="hidden" name="user_id" value=""/>
         Show Entire Twitter Graph: <button onclick="getTwitterGraph()">Twitter Graph</button> <br/><br/>
     </form>
 
     <form id="socialGraph" action="socialGraph" method="get">
+        <input type="hidden" name="device" value="web"/>
         <input class="user_id" type="hidden" name="user_id" value=""/>
-        See your Social Graph: <button onclick="getSocialGraph()">Social Graph</button>
+        See your Social Graph: <button onclick="getSocialGraph()">Social Graph</button> <br/><br/>
+    </form>
+
+    <form id="logout" action="logout" method="get">
+        <input type="hidden" name="device" value="web"/>
+        <input class="user_id" type="hidden" name="user_id" value=""/>
+        Logout: <button onclick="logout()">Log Out</button>
     </form>
 
     <div>
@@ -65,6 +73,10 @@
 
         function getSocialGraph() {
             document.getElementById('socialGraph').submit();
+        }
+
+        function logout() {
+            document.getElementById('logout').submit();
         }
     </script>
 </body>

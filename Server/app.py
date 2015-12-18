@@ -23,11 +23,20 @@ def index():
 # initiate authentication by logging in the user via twitter.
 @app.route('/signin', methods=['GET', 'POST'])
 def signIn():
-    oauth = tweepy.OAuthHandler(consumer_key, consumer_secret, callback_url)
-    redirect_url = oauth.get_authorization_url(signin_with_twitter=True)
-    session['request_token'] = oauth.request_token
+    if request.method == "POST":
+        oauth = tweepy.OAuthHandler(consumer_key, consumer_secret, callback_url)
+        redirect_url = oauth.get_authorization_url(signin_with_twitter=True)
+        session['request_token'] = oauth.request_token
 
-    return redirect(redirect_url)
+        # Android Application
+        if request.form.get('device', type=str) is "mobile":
+            session['device'] = "mobile"
+            return redirect_url
+        
+        # Web Application
+        else:
+            session['device'] = "web"
+            return redirect(redirect_url)
 
 # create access tokens and redirect to user home page :)
 @app.route('/auth', methods=['GET'])
@@ -88,7 +97,12 @@ def home():
         db['users'] = users
         print "Matching Done"
 
-    return render_template('home.html', name=user.name, user_id=id)
+    if session['device'] is "mobile":
+        del session['device']
+        return redirect(url_for('dashboard', user_id=id, device="mobile"))
+    else:
+        del session['device']
+        return render_template('home.html', name=user.name, user_id=id)
 
 # Return current user information, list of users sharing interests with the current user, including
 # their individual information and common interests
@@ -96,9 +110,11 @@ def home():
 def dashboard():
     # print "Received Request"
     id = int(request.args.get('user_id'))
+    device = request.args.get('device')
     # id = request.form.get('user_id', type=int)
     api = db[id]['api']
-    user = api.get_user('prakharsriv9')
+    user = api.me()
+    # user = api.get_user('prakharsriv9')
 
     matcher = db['matcher']
     users = db['users']
@@ -110,14 +126,23 @@ def dashboard():
         to = match['with'] 
         matchingUsers[to] = {'userDetails': users[to], 'commonInterests': match['interests']}
 
-    # print matchingUsers
+    # Android Application
+    if device is "mobile":
+        return json.dumps({
+            'user_id': user.id,
+            'name': user.name,
+            'user': users[user.id],
+            'matchingUsers': cleanDict(matchingUsers),
+        })
 
-    return render_template('dashboard.html',
-        name=user.name, 
-        user_id=user.id, 
-        user=json.dumps(users[user.id]),
-        matchingUsers=cleanDict(matchingUsers)
-    )
+    # Web Application
+    else:
+        return render_template('dashboard.html',
+            name=user.name, 
+            user_id=user.id, 
+            user=json.dumps(users[user.id]),
+            matchingUsers=json.dumps(cleanDict(matchingUsers))
+        )
 
 # Return nodes and edges for the entire twitter graph!! :)
 @app.route('/twitterGraph', methods=['GET'])
@@ -130,12 +155,20 @@ def twitterGraph():
 
     print len(edges)
 
-    return render_template('twitter-graph.html',
-        user_id=id, 
-        nodes=json.dumps(nodes), 
-        edges=json.dumps(edges),
-        graph=1
-    )
+    device = request.args.get('device')
+    
+    # Web Application
+    if device is "web":
+        return render_template('twitter-graph.html',
+            user_id=id, 
+            nodes=json.dumps(nodes), 
+            edges=json.dumps(edges),
+            graph=1
+        )
+
+    # Android Application 
+    else:
+        return None
 
 # Return the nodes and edges for the user's social graph, depicting all the users he/she shares 
 # common interest with.
@@ -143,7 +176,7 @@ def twitterGraph():
 def socialGraph():
     id = request.args.get('user_id')
     matcher = db['matcher']
-    print id
+    # print id
     graph = matcher.getUserSocialGraph(int(id))
     nodes = graph[0]
     edges = graph[1]
@@ -151,12 +184,30 @@ def socialGraph():
     print len(nodes)
     print len(edges)
 
+
     return render_template('twitter-graph.html', 
         user_id=id, 
         nodes=json.dumps(nodes), 
         edges=json.dumps(edges),
         graph=2
     )
+
+# Logout user!!
+@app.route('/logout', methods=['GET'])
+def logout():
+    id = int(request.args.get('user_id'))
+
+    del db[id]
+    
+    device = str(request.args.get('device'))
+
+    # Web Application
+    if device == 'web':
+        return redirect(url_for('index'))
+    
+    # Android Application
+    else:
+        return None
 
 # 1. First of all generate the interests of the user.
 # 2. Enrich the interests list of the user in case there arent many interests of the user.
@@ -216,7 +267,7 @@ def cleanDict(dictionary):
             dictionary[str(key)] = dictionary[key]
             del dictionary[key]
 
-    return json.dumps(dictionary)
+    return dictionary
 
 if __name__ == '__main__':
     app.run()

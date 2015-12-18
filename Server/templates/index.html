@@ -39,8 +39,9 @@
                         <hr class="intro-divider">  
                         <ul class="list-inline intro-social-buttons">
                             <li>
-                                <form class="signin" method="POST" method="auth">
-                                    <button type="submit" formaction="signin" formmethod="POST" class="btn btn-default btn-lg">
+                                <form id="signin" method="POST" action="signin">
+                                    <input type="hidden" name="device" value="web"/>
+                                    <button onclick="signin()" class="btn btn-default btn-lg">
                                         <i class="fa fa-twitter fa-fw"></i> <span class="network-name">Sign In</span>
                                     </button>
                                 </form>
@@ -56,6 +57,12 @@
         <!-- /.container -->
     </div>
     <!-- /.intro-header -->
+
+    <script type="text/javascript">
+        function signin() {
+            document.getElementById("signin").submit();    
+        }
+    </script>
 
     <!-- Page Content -->
 
