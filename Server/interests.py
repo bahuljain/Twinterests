@@ -182,15 +182,15 @@ class UserInterests:
 
 # # Bahul - bahulkjain
 # # Prakhar - prakharsriv9
-# API_TOKEN = 'MTQ0NjM0MDg3NjkwNw.cHJvZA.YmtqMjExMUBjb2x1bWJpYS5lZHU.N4IRZXySkKJuJQ8G63RGlwZCyAU'
+# API_TOKEN = 'xxx'
 # prism = Prismatic(API_TOKEN)
 # print prism.getRelatedTopics(2607)
 <<<<<<< HEAD:Server/interests.py
 
-# access_token = "563806852-9m6OTWv0bnpDfbEVYZXke1MoWwiB77IGRSpqwlaq"
-# access_token_secret = "BsKrwRvSutkADZX73J53i2dTz3WgCPzSYj1KQ5NI5GQW5"
-# consumer_key = "VlFNycQDt1xgm1w7ggatd748Q"
-# consumer_secret = "NKfuFXkIcIQNdMtOpim2TJ1avcwXuOCsAOVcR7gl9AQa5dQ1JS"
+# access_token = "xx"
+# access_token_secret = "xxx"
+# consumer_key = "xxx"
+# consumer_secret = "xx"
 # auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
 # auth.set_access_token(access_token, access_token_secret)
 
