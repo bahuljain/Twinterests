@@ -35,6 +35,7 @@ def signIn():
         
         # Web Application
         else:
+
             session['device'] = "web"
             return redirect(redirect_url)
 
@@ -97,7 +98,7 @@ def home():
         db['users'] = users
         print "Matching Done"
 
-    if session['device'] is "mobile":
+    if session['device'] == "mobile":
         del session['device']
         return redirect(url_for('dashboard', user_id=id, device="mobile"))
     else:
@@ -127,7 +128,7 @@ def dashboard():
         matchingUsers[to] = {'userDetails': users[to], 'commonInterests': match['interests']}
 
     # Android Application
-    if device is "mobile":
+    if device == "mobile":
         return json.dumps({
             'user_id': user.id,
             'name': user.name,
@@ -158,7 +159,7 @@ def twitterGraph():
     device = request.args.get('device')
     
     # Web Application
-    if device is "web":
+    if device == "web":
         return render_template('twitter-graph.html',
             user_id=id, 
             nodes=json.dumps(nodes), 
@@ -184,13 +185,20 @@ def socialGraph():
     print len(nodes)
     print len(edges)
 
+    device = request.args.get('device')
 
-    return render_template('twitter-graph.html', 
-        user_id=id, 
-        nodes=json.dumps(nodes), 
-        edges=json.dumps(edges),
-        graph=2
-    )
+    # Web Application
+    if device == "web":
+        return render_template('twitter-graph.html', 
+            user_id=id, 
+            nodes=json.dumps(nodes), 
+            edges=json.dumps(edges),
+            graph=2
+        )
+
+    # Android Application
+    else:
+        return None
 
 # Logout user!!
 @app.route('/logout', methods=['GET'])
