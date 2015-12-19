@@ -1,0 +1,185 @@
+
+body,
+html {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(231,239,240,1);
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 700;
+}
+
+.topnav {
+    font-size: 18px;
+    font-weight: 400;
+    color: rgba(0,0,0,1);
+}
+
+/*#content-section-b {
+	border: 1px solid rgba(0,0,0,0.5)
+}
+*/
+#profile-section-image {
+	background-color: white;
+	padding: 5px;
+	/*border: 1px solid rgba(0,0,0,0.5);*/
+	border-radius: 10px;
+	box-shadow: 0px 0px 1px #888888;		
+}
+
+#profile-image {
+	width: 100%;
+	height: 270px;
+	background-position: center;
+	background-size: cover;	
+	border-radius: 7px;
+}
+
+#profile-details {
+	width: 100%;
+	border: 0px solid lightgrey;
+}
+
+#profile-details h2 {
+	margin: 5px 0px 0px 5px;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+#profile-details h6 {
+	margin: 0px 0px 0px 5px;
+	font-size: 15px;
+	color: rgba(0,0,0,0.7);
+}
+
+#stats {
+	margin: 5px 0px 0px 0px;
+	padding: 5px;
+	width:100%;
+	border-radius: 5px;
+	/*background-color: white;*/
+	font-size: 10px;
+	color: rgba(0,0,0,0.6);
+}
+
+#stats table {
+	width:100%;
+}
+
+#stats table td {
+	width:33%;
+	/*text-align: center*/
+}
+
+#stats table #values {
+	font-size: 15px;
+	color: rgba(0,0,0,1);
+}
+
+#profile-details #description {
+	margin: 10px 0px 0px 5px;
+	font-size: 15px;
+}
+
+#interests, #graphs {
+	background-color: white;
+	border-radius: 5px;
+	width: 100%;
+	padding: 15px 15px 0px 15px;
+	box-shadow: 0px 0px 1px #888888;
+	margin-bottom: 10px;
+}
+
+#interests h2, #graphs h2 {
+	width: 100%;
+	text-align: center;
+	margin: 0px 0px 15px 0px;
+	font-size: 20px;
+	color: rgba(0,0,0,0.7);
+}
+
+#interests-list {
+	text-align: center;
+	width: 100%;
+	margin: 10px 0px 0px 0px;
+	font-size: 13px;
+	padding-bottom: 15px;
+	color: rgba(0,0,0,0.5);
+}
+
+#twitterGraph, #socialGraph {
+	width: 100%;
+	margin: 0px 0px 0px 0px;
+	padding: 0px 5% 0px 5%;
+}
+
+#twitterGraph button, #socialGraph button {
+	-moz-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	-webkit-box-shadow: 0px 1px 0px 0px #f0f7fa;
+	box-shadow: 0px 1px 0px 0px #f0f7fa;
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #33bdef), color-stop(1, #019ad2));
+	background:-moz-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-webkit-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-o-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:-ms-linear-gradient(top, #33bdef 5%, #019ad2 100%);
+	background:linear-gradient(to bottom, #33bdef 5%, #019ad2 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#33bdef', endColorstr='#019ad2',GradientType=0);
+	background-color:#33bdef;
+	-moz-border-radius:6px;
+	-webkit-border-radius:6px;
+	border-radius:6px;
+	border:1px solid #057fd0;
+	display:inline-block;
+	cursor:pointer;
+	color:#ffffff;
+	font-family:Arial;
+	font-size: 14px;
+	/*font-weight: ;*/
+	padding: 7px 15px;
+	width: 100%;
+	text-decoration:none;
+	/*text-shadow:0px -1px 0px #5b6178;*/
+}
+#twitterGraph button:hover, #socialGraph button:hover {
+	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #019ad2), color-stop(1, #33bdef));
+	background:-moz-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-webkit-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-o-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:-ms-linear-gradient(top, #019ad2 5%, #33bdef 100%);
+	background:linear-gradient(to bottom, #019ad2 5%, #33bdef 100%);
+	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
+	background-color:#019ad2;
+}
+#twitterGraph button:active, #socialGraph button:active {
+	position:relative;
+	top:1px;
+}
+
+.card {
+	box-shadow: 0px 0px 1px #888888;
+	border-radius: 5px;
+	background-color: white;
+	margin-bottom: 5px;
+	padding: 10px;
+}
+
+.profile_image {
+	width: 20%;
+	height: 100px;
+	overflow: hidden;
+	background-position: center;
+	background-size: cover;	
+	border-radius: 7px;
+	box-shadow: 0px 0px 1px #888888;
+}
+
+
+
