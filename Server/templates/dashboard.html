@@ -19,8 +19,7 @@
 
     <!-- Custom Fonts -->    
     <link href="static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-    <!-- <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css"> -->
+    <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -53,11 +52,8 @@
                         </div>
 
                         <div id="profile-details">
-                            
-                            <a id="profile-link" target="_blank" href="">
                             <h2 id="name"></h2>
                             <h6 id="handle"></h6>
-                            </a>
                             
                             <div id="stats">
                                 <table>
@@ -84,16 +80,14 @@
                 </div>
 
                 <div class="col-lg-6">
-                    <div id="scrollable">
-                        <div id="content-section-b">
-                        
-                            <!-- <div class="card">
-                                <div class="profile-image">
+                    <div id="content-section-b">
+                    
+                        <!-- <div class="card">
+                            <div class="profile-image">
 
-                                </div>
-                            </div> -->
-                        
-                        </div>
+                            </div>
+                        </div> -->
+                    
                     </div>
                 </div>
 
@@ -149,10 +143,6 @@
         var image_url = user.profile_image_url.replace('_normal', '');
         document.getElementById('profile-image').style.backgroundImage = "url('" + image_url + "')";
         
-        link = user.profile_url;        
-        link = link.replace("http:/", "https://www.");
-        document.getElementById('profile-link').href =  link;
-        
         document.getElementById('name').innerHTML = user.name;
         document.getElementById('handle').innerHTML = "@" + user.screen_name;
         document.getElementById('description').innerHTML = user.description;
@@ -171,10 +161,10 @@
         }
 
         var section = document.getElementById('content-section-b');
-        for(var i=0; i < matchingUsers.length; i++) {            
-            userDetails = matchingUsers[i].userDetails;
-            commonInterests = matchingUsers[i].commonInterests;
-            // console.log(commonInterests);
+        for(id in matchingUsers) {            
+            userDetails = matchingUsers[id].userDetails;
+            commonInterests = matchingUsers[id].commonInterests;
+            
             list = [];
             for(id in commonInterests) {
                 list.push(commonInterests[id]);
@@ -184,54 +174,19 @@
             var card = document.createElement('div');
             card.className = "card";
             
-            // Profile Image
+
             var profile_image = document.createElement('div');
             profile_image.className = "profile_image";
             card.appendChild(profile_image);
+            section.appendChild(card);
 
             image_url = userDetails.profile_image_url.replace('_normal', '');
             profile_image.style.backgroundImage = "url('" + image_url + "')";
+
             
-            var profile_info = document.createElement('div');
-            profile_info.className = "profile_info";
-            card.appendChild(profile_info);
-
-            // Profile Link
-            var profile_link = document.createElement('a');
-            profile_link.target = "_blank";
-
-            link = userDetails.profile_url;        
-            link = link.replace("http:/", "https://www.");
-            profile_link.href = link;
-            profile_link.className = "profile_link";
-            profile_info.appendChild(profile_link);
-
-            // Profile Name
-            var profile_name = document.createElement('span');
-            profile_name.className = "profile_name";
-            profile_name.innerHTML = userDetails.name;
-            profile_link.appendChild(profile_name);
-
-            // Handle
-            var handle = document.createElement('span');
-            handle.className = "handle";
-            handle.innerHTML = "@" + userDetails.screen_name;
-            profile_link.appendChild(handle);
-
-            // // Description
-            // var description = document.createElement('div');
-            // description.className = "description";
-            // description.innerHTML = userDetails.description;
-            // profile_info.appendChild(description);
-
-            // Common Interests
-            var common = document.createElement('div');
-            common.className = "common";
-            common.innerHTML = "Common Interests: " + interests + "";
-            profile_info.appendChild(common);
 
             // card.innerHTML = interests;
-            section.appendChild(card);
+            
         }
 
 
@@ -253,7 +208,7 @@
         }
 
         function numberFormatting(n) {
-            if(n > Math.pow(10,6)) {
+            if(n > Math.pow(10,7)) {
                 return Math.ceil(n/Math.pow(10,5))/10 + "M";
             } else if(n > Math.pow(10,4)) {
                 return Math.ceil(n/Math.pow(10,2))/10 + "K";
