@@ -115,8 +115,8 @@ def dashboard():
     device = request.args.get('device')
     # id = request.form.get('user_id', type=int)
     api = db[id]['api']
-    # user = api.me()
-    user = api.get_user('sid1793')
+    user = api.me()
+    # user = api.get_user('sid1793')
     # user = api.get_user('prakharsriv9')
     # user = api.get_user('MEAIndia')
 
