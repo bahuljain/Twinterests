@@ -1,4 +1,4 @@
-#Twitty
+#Twinterests
 Connecting people on twitter with similar interests
 
 ###Technology Used
