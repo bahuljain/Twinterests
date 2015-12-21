@@ -4,6 +4,7 @@ html {
     width: 100%;
     height: 100%;
     background-color: rgba(231,239,240,1);
+    font-family: 'Open Sans', sans-serif;
 }
 
 body,
@@ -13,7 +14,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;
+	font-family: 'Open Sans', sans-serif;
+    /*font-family: "Lato","Helvetica Neue",Helvetica,Arial,sans-serif;*/
     font-weight: 700;
 }
 
@@ -23,10 +25,6 @@ h6 {
     color: rgba(0,0,0,1);
 }
 
-/*#content-section-b {
-	border: 1px solid rgba(0,0,0,0.5)
-}
-*/
 #profile-section-image {
 	background-color: white;
 	padding: 5px;
@@ -158,28 +156,79 @@ h6 {
 	filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#019ad2', endColorstr='#33bdef',GradientType=0);
 	background-color:#019ad2;
 }
+
 #twitterGraph button:active, #socialGraph button:active {
 	position:relative;
 	top:1px;
+}
+
+#scrollable {
+	/*overflow: hidden;*/
+	height: 100vh;
+	/*position: relative;*/
+}
+
+#content-section-b {
+	/*position: absolute;*/
+	/*right: -17px;*/
+	/*border: 1px solid rgba(0,0,0,0.5);*/
+	height: 100%;
+	/*overflow: auto;*/
 }
 
 .card {
 	box-shadow: 0px 0px 1px #888888;
 	border-radius: 5px;
 	background-color: white;
-	margin-bottom: 5px;
+	margin-bottom: 10px;
 	padding: 10px;
+	height: 100px;
+	display: flex;
+	overflow: hidden;
 }
 
 .profile_image {
-	width: 20%;
-	height: 100px;
+	width: 85px;
+	min-width: 85px;
+	height: 100%;
 	overflow: hidden;
 	background-position: center;
 	background-size: cover;	
 	border-radius: 7px;
-	box-shadow: 0px 0px 1px #888888;
+	/*box-shadow: 0px 0px 5px #888888;*/
+}
+
+.profile_info {
+	flex-grow: 1;
+	height:100%;
+	padding: 0px;
+	/*border: 1px solid rgba(0,0,0,0.5);*/
+	margin: 0px 0px 0px 10px;
+	/*box-shadow: 0px 0px 1px #888888;*/
+}
+
+.profile_name {
+	font-size: 20px;
+	margin: 0px;
+	/*box-shadow: 0px 0px 1px #888888;*/
+}
+
+.handle {
+	font-size: 12px;
+	color: rgba(0,0,0,0.7);
+	margin: 0px 0px 0px 5px;
+	/*box-shadow: 0px 0px 1px #888888;*/
+}
+
+.common {
+	/*border: 1px solid rgba(0,0,0,0.8);*/
+	/*box-shadow: 0px 0px 1px #888888;*/
+	font-size: 11px;
+	/*overflow: hidden;*/
 }
 
 
 
+a {
+	color:black;
+}

@@ -29,7 +29,7 @@ def signIn():
         session['request_token'] = oauth.request_token
 
         # Android Application
-        if request.form.get('device', type=str) is "mobile":
+        if request.form.get('device', type=str) == "mobile":
             session['device'] = "mobile"
             return redirect_url
         
@@ -103,7 +103,8 @@ def home():
         return redirect(url_for('dashboard', user_id=id, device="mobile"))
     else:
         del session['device']
-        return render_template('home.html', name=user.name, user_id=id)
+        return redirect(url_for('dashboard', user_id=id, device="web"))
+        # return render_template('home.html', name=user.name, user_id=id)
 
 # Return current user information, list of users sharing interests with the current user, including
 # their individual information and common interests
@@ -115,9 +116,9 @@ def dashboard():
     # id = request.form.get('user_id', type=int)
     api = db[id]['api']
     # user = api.me()
-    # user = api.get_user('sid1793')
+    user = api.get_user('sid1793')
     # user = api.get_user('prakharsriv9')
-    user = api.get_user('EmWatson')
+    # user = api.get_user('MEAIndia')
 
     matcher = db['matcher']
     users = db['users']
@@ -128,6 +129,8 @@ def dashboard():
     for match in matches:
         to = match['with'] 
         matchingUsers[to] = {'userDetails': users[to], 'commonInterests': match['interests']}
+
+    sortedMatchingUsers = sortedUsers(cleanDict(matchingUsers))
 
     # Android Application
     if device == "mobile":
@@ -144,7 +147,7 @@ def dashboard():
             name=user.name, 
             user_id=user.id, 
             user=json.dumps(users[user.id]),
-            matchingUsers=json.dumps(cleanDict(matchingUsers))
+            matchingUsers=json.dumps(sortedMatchingUsers)
         )
 
 # Return nodes and edges for the entire twitter graph!! :)
@@ -278,6 +281,13 @@ def cleanDict(dictionary):
             del dictionary[key]
 
     return dictionary
+
+def sortedUsers(matchingUsers):
+    sortedList = list()
+    for k in sorted(matchingUsers, key=lambda k: len(matchingUsers[k]['commonInterests']), reverse=True):
+        sortedList.append(matchingUsers[k])
+    
+    return sortedList
 
 if __name__ == '__main__':
     app.run()
