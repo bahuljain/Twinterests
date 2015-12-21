@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="bahul" content="">
 
-    <title>Twitty</title>
+    <title>Twinterests</title>
 
     <!-- Bootstrap Core CSS -->
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
@@ -34,7 +34,7 @@
                     </ul>
 
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#" onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
+                        <li><a onclick="logout()"><span class="glyphicon glyphicon-log-out"></span> Sign Out</a></li>
                     </ul>
                 </div>
             </div>
@@ -138,6 +138,12 @@
         </div>
     </div>
 
+    <form id="logout" action="logout" method="get">
+        <input type="hidden" name="device" value="web"/>
+        <input class="user_id" type="hidden" name="user_id" value=""/>
+            <!-- Logout: <button onclick="logout()">Log Out</button> -->
+    </form>
+
     <script type="text/javascript">
         var user_id = {{ user_id | safe }};
         var user = {{ user | safe }};
@@ -145,10 +151,16 @@
 
         console.log(user);
         console.log(matchingUsers);
+        // document.getElementById("user_id").value = user_id;
 
+        x = document.getElementsByClassName('user_id');
+        for (var i = 0; i < x.length; i++) {
+            x[i].value = user_id;
+        }
+
+        // user profile image
         var image_url = user.profile_image_url.replace('_normal', '');
         document.getElementById('profile-image').style.backgroundImage = "url('" + image_url + "')";
-        
         link = user.profile_url;        
         link = link.replace("http:/", "https://www.");
         document.getElementById('profile-link').href =  link;
@@ -159,7 +171,6 @@
         document.getElementById('following-count').innerHTML = numberFormatting(user.friends_count);
         document.getElementById('tweets-count').innerHTML = numberFormatting(user.statuses_count);
         document.getElementById('followers-count').innerHTML = numberFormatting(user.follower_count);
-
 
         var div = document.getElementById('interests-list');
         for(id in user['interests']) {
@@ -234,12 +245,6 @@
             section.appendChild(card);
         }
 
-
-        x = document.getElementsByClassName('user_id');
-        for (var i = 0; i < x.length; i++) {
-            x[i].value = user_id;
-        }
-
         function getTwitterGraph() {
             document.getElementById('twitterGraph').submit();
         }
@@ -261,17 +266,7 @@
                 return n;
             }
         }
-    </script>
-
-    
-    <form id="logout" action="logout" method="get">
-        <input type="hidden" name="device" value="web"/>
-        <input class="user_id" type="hidden" name="user_id" value=""/>
-            <!-- Logout: <button onclick="logout()">Log Out</button> -->
-    </form>
-
-
-    
+    </script>   
 
         <!-- jQuery -->
     <script src="static/js/jquery.js"></script>

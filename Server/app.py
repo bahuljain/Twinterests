@@ -11,7 +11,7 @@ app = Flask(__name__, static_url_path='/static')
 app.debug = True
 consumer_key = "VlFNycQDt1xgm1w7ggatd748Q"
 consumer_secret = "NKfuFXkIcIQNdMtOpim2TJ1avcwXuOCsAOVcR7gl9AQa5dQ1JS"
-callback_url = 'http://62ab6420.ngrok.io/auth'
+callback_url = 'http://3ce5a1c8.ngrok.io/auth'
 session = dict()
 db = dict()
 
@@ -115,10 +115,12 @@ def dashboard():
     device = request.args.get('device')
     # id = request.form.get('user_id', type=int)
     api = db[id]['api']
-    user = api.me()
+    # user = api.me()
     # user = api.get_user('sid1793')
     # user = api.get_user('prakharsriv9')
     # user = api.get_user('MEAIndia')
+    # user = api.get_user('EmWatson')
+    user = api.get_user('Sagar_mullu')
 
     matcher = db['matcher']
     users = db['users']
